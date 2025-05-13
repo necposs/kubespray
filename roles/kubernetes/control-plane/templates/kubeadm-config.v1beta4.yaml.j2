@@ -35,6 +35,8 @@ nodeRegistration:
 patches:
   directory: {{ kubeadm_patches_dir }}
 {% endif %}
+timeouts:
+  controlPlaneComponentHealthCheck: 8m0s
 ---
 apiVersion: kubeadm.k8s.io/v1beta4
 kind: ClusterConfiguration
