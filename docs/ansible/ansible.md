@@ -79,7 +79,6 @@ The following tags are defined in playbooks:
 | control-plane                  | Configuring K8s control plane node role               |
 | coredns                        | Configuring coredns deployment                        |
 | crio                           | Configuring crio container engine for hosts           |
-| crun                           | Configuring crun runtime                              |
 | csi-driver                     | Configuring csi driver                                |
 | dashboard                      | Installing and configuring the Kubernetes Dashboard   |
 | dns                            | Remove dns entries when resetting                     |

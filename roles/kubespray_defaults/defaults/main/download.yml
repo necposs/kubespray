@@ -73,7 +73,6 @@ image_info_command_on_localhost: "{{ lookup('vars', image_command_tool_on_localh
 image_arch: "{{ host_architecture | default('amd64') }}"
 
 # Versions
-crun_version: "{{ (crun_checksums['amd64'] | dict2items)[0].key }}"
 runc_version: "{{ (runc_checksums['amd64'] | dict2items)[0].key }}"
 kata_containers_version: "{{ (kata_containers_binary_checksums['amd64'] | dict2items)[0].key }}"
 youki_version: "{{ (youki_checksums['amd64'] | dict2items)[0].key }}"
@@ -181,7 +180,6 @@ crictl_download_url: "{{ github_url }}/kubernetes-sigs/cri-tools/releases/downlo
 crio_download_url: "{{ storage_googleapis_url }}/cri-o/artifacts/cri-o.{{ image_arch }}.v{{ crio_version }}.tar.gz"
 helm_download_url: "{{ get_helm_url }}/helm-v{{ helm_version }}-linux-{{ image_arch }}.tar.gz"
 runc_download_url: "{{ github_url }}/opencontainers/runc/releases/download/v{{ runc_version }}/runc.{{ image_arch }}"
-crun_download_url: "{{ github_url }}/containers/crun/releases/download/{{ crun_version }}/crun-{{ crun_version }}-linux-{{ image_arch }}"
 youki_download_url: "{{ github_url }}/youki-dev/youki/releases/download/v{{ youki_version }}/youki-{{ youki_version }}-{{ ansible_architecture }}-gnu.tar.gz"
 kata_containers_download_url: "{{ github_url }}/kata-containers/kata-containers/releases/download/{{ kata_containers_version }}/kata-static-{{ kata_containers_version }}-{{ image_arch }}.tar.xz"
 # gVisor only supports amd64 and uses x86_64 to in the download link
@@ -207,7 +205,6 @@ crio_archive_checksum: "{{ crio_archive_checksums[image_arch][crio_version] }}"
 cri_dockerd_archive_checksum: "{{ cri_dockerd_archive_checksums[image_arch][cri_dockerd_version] }}"
 helm_archive_checksum: "{{ helm_archive_checksums[image_arch][helm_version] }}"
 runc_binary_checksum: "{{ runc_checksums[image_arch][runc_version] }}"
-crun_binary_checksum: "{{ crun_checksums[image_arch][crun_version] }}"
 youki_archive_checksum: "{{ youki_checksums[image_arch][youki_version] }}"
 kata_containers_binary_checksum: "{{ kata_containers_binary_checksums[image_arch][kata_containers_version] }}"
 gvisor_runsc_binary_checksum: "{{ gvisor_runsc_binary_checksums[image_arch][gvisor_version] }}"
@@ -513,18 +510,6 @@ downloads:
     unarchive: true
     unarchive_extra_opts:
       - --strip=1
-    owner: "root"
-    mode: "0755"
-    groups:
-      - k8s_cluster
-
-  crun:
-    file: true
-    enabled: "{{ crun_enabled }}"
-    dest: "{{ local_release_dir }}/crun-{{ crun_version }}-{{ image_arch }}"
-    checksum: "{{ crun_binary_checksum }}"
-    url: "{{ crun_download_url }}"
-    unarchive: false
     owner: "root"
     mode: "0755"
     groups:

@@ -37,11 +37,6 @@ infos = {
         "url": "https://storage.googleapis.com/cri-o/artifacts/cri-o.{arch}.v{version}.tar.gz.sha256sum",
         "graphql_id": "R_kgDOBAr5pg",
     },
-    "crun": {
-        "url": "https://github.com/containers/crun/releases/download/{version}/crun-{version}-linux-{arch}",
-        "binary": True,
-        "graphql_id": "R_kgDOBip3vA",
-    },
     "etcd_binary": {
         "url": "https://github.com/etcd-io/etcd/releases/download/v{version}/SHA256SUMS",
         "graphql_id": "R_kgDOAKtHtg",

@@ -21,13 +21,6 @@ dependencies:
       - container-engine
       - gvisor
 
-  - role: container-engine/crun
-    when:
-      - crun_enabled
-    tags:
-      - container-engine
-      - crun
-
   - role: container-engine/youki
     when:
       - youki_enabled

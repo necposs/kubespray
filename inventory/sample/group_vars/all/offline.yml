@@ -52,9 +52,6 @@
 # [Optional] helm: only if you set helm_enabled: true
 # helm_download_url: "{{ files_repo }}/get.helm.sh/helm-v{{ helm_version }}-linux-{{ image_arch }}.tar.gz"
 
-# [Optional] crun: only if you set crun_enabled: true
-# crun_download_url: "{{ files_repo }}/github.com/containers/crun/releases/download/{{ crun_version }}/crun-{{ crun_version }}-linux-{{ image_arch }}"
-
 # [Optional] kata: only if you set kata_containers_enabled: true
 # kata_containers_download_url: "{{ files_repo }}/github.com/kata-containers/kata-containers/releases/download/{{ kata_containers_version }}/kata-static-{{ kata_containers_version }}-{{ image_arch }}.tar.xz"
 

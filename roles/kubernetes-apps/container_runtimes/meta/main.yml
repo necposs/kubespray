@@ -14,13 +14,6 @@ dependencies:
       - gvisor
       - container-runtimes
 
-  - role: kubernetes-apps/container_runtimes/crun
-    when: crun_enabled
-    tags:
-      - apps
-      - crun
-      - container-runtimes
-
   - role: kubernetes-apps/container_runtimes/youki
     when:
       - youki_enabled

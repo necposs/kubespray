@@ -329,10 +329,6 @@ gvisor_enabled: false
 # When enabled, it requires container_manager=crio
 runc_enabled: false
 
-# Enable crun as additional container runtime
-# When enabled, it requires container_manager=crio
-crun_enabled: false
-
 # Enable youki as additional container runtime
 # When enabled, it requires container_manager=crio
 youki_enabled: false

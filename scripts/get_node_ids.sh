@@ -42,9 +42,6 @@ gh api graphql -H "X-Github-Next-Global-ID: 1" -f query='{
     kata: repository(owner: "kata-containers", name: "kata-containers") {
     id
     }
-    crun: repository(owner: "containers", name: "crun") {
-    id
-    }
     gvisor: repository(owner: "google", name: "gvisor") {
     id
     }
