@@ -1,0 +1,59 @@
+---
+- name: Debug etcd_current_version
+  ansible.builtin.debug:
+    msg: "{{ etcd_current_version }}"
+  when: etcd_cluster_setup
+
+# When upgrading from etcd 3.5 to 3.6, need to clean up v2 store before upgrading.
+# Without this, etcd 3.6 will crash with following error:
+#   "panic: detected disallowed v2 WAL for stage --v2-deprecation=write-only [recovered]"
+- name: Backup/Restore etcd data to clean up v2 store when upgrading etcd from <3.6 to >=3.6
+  when:
+    - etcd_cluster_setup
+    - etcd_current_version != ''
+    - etcd_current_version is version('3.6.0', '<')
+    - etcd_version is version('3.6.0', '>=')
+  block:
+    - name: Ensure etcd version is >=3.5.20
+      when:
+        - etcd_current_version is version('3.5.20', '<')
+      fail:
+        msg: "You need to upgrade etcd to 3.5.20 or later before upgrade to 3.6. Current version is {{ etcd_current_version }}."
+
+    - name: Create Backup Directory
+      file:
+        path: "{{ etcd_backup_prefix }}/migrate"
+        state: directory
+        owner: root
+        group: root
+        mode: "0600"
+
+    - name: Backup etcd v3 data to clean up v2 store
+      command: >-
+        {{ bin_dir }}/etcdctl snapshot save {{ etcd_backup_prefix }}/migrate/snapshot.db
+      environment:
+        ETCDCTL_ENDPOINTS: "{{ etcd_access_addresses.split(',') | first }}"
+        ETCDCTL_CERT: "{{ etcd_cert_dir }}/admin-{{ inventory_hostname }}.pem"
+        ETCDCTL_KEY: "{{ etcd_cert_dir }}/admin-{{ inventory_hostname }}-key.pem"
+        ETCDCTL_CACERT: "{{ etcd_cert_dir }}/ca.pem"
+
+    - name: Stop etcd
+      service:
+        name: etcd
+        state: stopped
+
+    - name: Rename etcd data directory
+      command: mv {{ etcd_data_dir }} {{ etcd_data_dir }}.bak
+      args:
+        removes: "{{ etcd_data_dir }}"
+        creates: "{{ etcd_data_dir }}.bak"
+
+    - name: Restore etcd v3 data to clean up v2 store
+      command: >-
+        {{ bin_dir }}/etcdutl --data-dir {{ etcd_data_dir }} snapshot restore {{ etcd_backup_prefix }}/migrate/snapshot.db
+      notify: Restart etcd
+
+    - name: Start etcd after restoration
+      service:
+        name: etcd
+        state: started
