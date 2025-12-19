@@ -111,7 +111,7 @@ Note:
 <!-- BEGIN ANSIBLE MANAGED BLOCK -->
 
 - Core
-  - [kubernetes](https://github.com/kubernetes/kubernetes) 1.34.3
+  - [kubernetes](https://github.com/kubernetes/kubernetes) 1.35.0
   - [etcd](https://github.com/etcd-io/etcd) 3.5.26
   - [docker](https://www.docker.com/) 28.3
   - [containerd](https://containerd.io/) 2.1.6
@@ -127,7 +127,7 @@ Note:
   - [kube-vip](https://github.com/kube-vip/kube-vip) 0.8.0
 - Application
   - [cert-manager](https://github.com/jetstack/cert-manager) 1.15.3
-  - [coredns](https://github.com/coredns/coredns) 1.12.1
+  - [coredns](https://github.com/coredns/coredns) 1.13.1
   - [ingress-nginx](https://github.com/kubernetes/ingress-nginx) 1.13.3
   - [argocd](https://argoproj.github.io/) 2.14.5
   - [helm](https://helm.sh/) 3.18.4
